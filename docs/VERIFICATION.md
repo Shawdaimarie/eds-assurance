@@ -21,9 +21,9 @@ Local date: **2026-10-23**. Runtime: Python **3.12.14**, macOS arm64. Dependenci
 | Render configuration | Passes Render's current public JSON schema; single instance and external secret fields also covered by offline tests |
 | Live provider calls | Not performed: no provider API keys configured; no paid model requests made |
 | Docker runtime | Not executed locally: Docker daemon unavailable |
-| Remote GitHub CI | Prepared workflow, not executed remotely during this release |
-| Cloud deployment | Prepared Blueprint/runbook; no service or paid resources created |
-| Other Python versions | Python 3.11/3.13 included in CI; not executed locally |
+| Remote GitHub CI | [Run 40041827502](https://github.com/Shawdaimarie/eds-assurance/actions/runs/40041827502): all four jobs passed, including Python 3.11–3.13 and container/API workflow |
+| Cloud deployment | Dashboard Blueprint review reached; Render requires payment information. Workspace confirmation pending. No EDS Assurance service or paid resources created |
+| Other Python versions | Python 3.11 and 3.13 verified in GitHub CI |
 
 The upstream Starlette test client emits one HTTPX deprecation warning. All tests pass with pinned dependencies. Runtime provider adapters use HTTPX directly; this warning concerns the test transport.
 

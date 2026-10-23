@@ -1,6 +1,6 @@
 # GitHub and deployment runbook
 
-Prepared target: a standalone `Shawdaimarie/eds-assurance` repository linked from Essential Digital Solution. This document describes the next operational steps. A remote repository has not been created/pushed, and no cloud resources have been provisioned.
+Published repository: [Shawdaimarie/eds-assurance](https://github.com/Shawdaimarie/eds-assurance). GitHub CI run [40041827502](https://github.com/Shawdaimarie/eds-assurance/actions/runs/40041827502) passed Python 3.11–3.13 tests and the deployment/container job. Render resource creation is blocked by required payment information and target-workspace confirmation. No EDS Assurance cloud resource has been created. Live model verification awaits privately configured provider credentials.
 
 ## Before publication
 
@@ -16,22 +16,15 @@ git status --short
 
 The source package is also available as a Git bundle. The bundle contains the prepared commit and no runtime state or keys. A local commit is not evidence that GitHub CI has executed.
 
-## Publish the standalone repository
+## Published standalone repository
 
-Create an **empty** repository named `eds-assurance` under `Shawdaimarie`, without an initial README. Select visibility and licensing according to your intended publication. Then, from the prepared local Git checkout:
+The public repository was created through the signed-in GitHub interface and populated through the GitHub connector. The local `main` branch tracks `origin/main` at `https://github.com/Shawdaimarie/eds-assurance.git`.
 
-```bash
-git remote add origin https://github.com/Shawdaimarie/eds-assurance.git
-git push -u origin main
-```
-
-If `origin` already exists, inspect it rather than replacing an unrelated remote. A Git bundle can be restored with `git clone /path/to/eds-assurance-v0.2.0.bundle eds-assurance`; then inspect its remotes before setting the GitHub destination. The GitHub connector in this session supports existing-repository operations but does not expose repository creation.
-
-After pushing, check all CI jobs. Unit/API/provider tests run on Python 3.11, 3.12, and 3.13. The deployment job validates the current Render schema, builds a container, and runs health plus authenticated API checks. No provider keys are used by CI. Required checks should be enabled on `main` before treating it as the deploy branch.
+For subsequent changes, inspect `git status`, commit reviewed files, and push `main`. Check the resulting CI jobs. Unit/API/provider tests run on Python 3.11, 3.12, and 3.13. The deployment job validates the current Render schema, builds a container, and runs health plus authenticated API checks. No provider keys are used by CI. Required checks should be enabled on `main` before treating it as the deploy branch.
 
 ## Render pilot configuration
 
-`render.yaml` proposes a **paid** native Python web service in **Ohio**, with a **1 GB** persistent disk at `/var/data`, one process, and one instance. It waits for CI checks before automatic deploys. These are prepared choices, not created resources. Review the current plan/disk charges and region before applying.
+`render.yaml` proposes a **paid** native Python web service in **Ohio**, with a **1 GB** persistent disk at `/var/data`, one process, and one instance. It waits for CI checks before automatic deploys. These are prepared choices, not created resources. Review the current plan/disk charges and region before applying. The Dashboard reached the repository Blueprint review, then displayed **Payment Information Required**. The account owner must enter payment details directly in Render; no card data should enter this repository or chat. Render indicates a temporary $1 card-verification authorization. No Blueprint has been applied.
 
 The current public JSON schema accepts this Blueprint. Render's platform-aware CLI/API validation has not been run because the CLI is not installed and no target workspace was selected. If available, also run:
 
@@ -61,7 +54,7 @@ Official references reviewed on 2026-10-23: [Blueprint specification](https://re
 5. Confirm a second tenant cannot read the first tenant's dataset or run.
 6. Restart/redeploy and verify the same test data and audit checkpoint remain available.
 
-Run `python examples/api_workflow.py --base-url https://your-service.example` from a trusted shell with dedicated test-tenant credentials. The script requires HTTPS for remote origins and refuses redirects; do not place production tokens in it. Test the container locally first when a Docker daemon is available. Local Docker execution was unavailable during preparation; remote container CI has not yet run.
+Run `python examples/api_workflow.py --base-url https://your-service.example` from a trusted shell with dedicated test-tenant credentials. The script requires HTTPS for remote origins and refuses redirects; do not place production tokens in it. Test the container locally first when a Docker daemon is available. Local Docker execution was unavailable during preparation; the remote container and authenticated API workflow passed in GitHub CI run 40041827502.
 
 ## Backups, recovery, and rollback
 
