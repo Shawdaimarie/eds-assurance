@@ -1,0 +1,17 @@
+[
+  {
+    "source_id": "recovery-v1",
+    "title": "Synthetic recovery procedure",
+    "content": "A failed worker must be restarted within 30 seconds. Repeated task submissions must not duplicate results."
+  },
+  {
+    "source_id": "access-v1",
+    "title": "Synthetic access policy",
+    "content": "Project evidence is isolated by tenant. Access tokens must be scoped to read, write, or evaluate."
+  },
+  {
+    "source_id": "region-v1",
+    "title": "Synthetic regional processing policy",
+    "content": "This example deployment processes EU project evidence in the EU region only."
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "source_id": "openai-structured-2026-10-23",
+    "title": "Public documentation summary: OpenAI structured output (reviewed 2026-10-23)",
+    "content": "The OpenAI Responses API supports JSON schema constraints for generated text through text.format. The store field can disable response storage. Schema-constrained output still needs handling for refusals and incomplete responses.",
+    "source_url": "https://developers.openai.com/api/docs/guides/structured-outputs"
+  },
+  {
+    "source_id": "anthropic-structured-2026-10-23",
+    "title": "Public documentation summary: Anthropic structured output (reviewed 2026-10-23)",
+    "content": "The Anthropic Messages API accepts a JSON schema through output_config.format. Returned JSON text appears in content blocks. A refusal or max_tokens stop reason needs separate handling and must not be treated as a successful schema-valid answer.",
+    "source_url": "https://platform.claude.com/docs/en/build-with-claude/structured-outputs"
+  },
+  {
+    "source_id": "xai-structured-2026-10-23",
+    "title": "Public documentation summary: xAI structured output (reviewed 2026-10-23)",
+    "content": "The xAI Responses API supports a JSON schema in text.format. Generated text is returned inside message items in the output array. Model support and account availability must be checked before selecting an exact model identifier.",
+    "source_url": "https://docs.x.ai/developers/model-capabilities/text/structured-outputs"
+  }
+]

@@ -1,0 +1,20 @@
+services:
+  assurance:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      EDS_AUDIT_KEY_HEX: ${EDS_AUDIT_KEY_HEX:?Set a 32-byte audit key as 64 hex characters}
+      EDS_API_TOKENS_JSON: ${EDS_API_TOKENS_JSON:?Set scoped tenant API credentials}
+    volumes:
+      - assurance-data:/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,mode=1777
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    cpus: 1.0
+    mem_limit: 512m
+    restart: unless-stopped
+volumes:
+  assurance-data:

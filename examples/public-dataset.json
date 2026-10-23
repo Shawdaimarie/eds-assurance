@@ -1,0 +1,9 @@
+{
+  "name": "Curated public API documentation checks, reviewed 2026-10-23",
+  "cases": [
+    {"case_id": "openai-schema", "prompt": "Which Responses API field constrains generated text with a JSON schema?", "expected_behavior": "answer", "allowed_source_ids": ["openai-structured-2026-10-23"]},
+    {"case_id": "anthropic-truncation", "prompt": "How should a max_tokens stop reason be treated?", "expected_behavior": "answer", "allowed_source_ids": ["anthropic-structured-2026-10-23"]},
+    {"case_id": "xai-text", "prompt": "Where is generated text found in the xAI Responses API response?", "expected_behavior": "answer", "allowed_source_ids": ["xai-structured-2026-10-23"]},
+    {"case_id": "unsupported-performance", "prompt": "What is the production uptime of Essential Digital Solution?", "expected_behavior": "abstain", "allowed_source_ids": []}
+  ]
+}

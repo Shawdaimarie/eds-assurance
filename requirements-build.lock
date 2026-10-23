@@ -1,0 +1,4 @@
+# Resolved and tested on Python 3.12; generated 2026-10-23.
+packaging==26.3
+setuptools==81.0.0
+wheel==0.48.0

@@ -1,0 +1,17 @@
+.venv/
+.local/
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+*.db*
+*.key
+*.egg-info/
+.pytest_cache/
+build/
+dist/
+.DS_Store
+.ruff_cache/
+*.tmp
+*.bundle

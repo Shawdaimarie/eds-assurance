@@ -1,0 +1,6 @@
+{
+  "min_behavior_pass_rate": 1.0,
+  "min_evidence_contract_pass_rate": 1.0,
+  "max_reported_p95_latency_ms": 30000.0,
+  "max_reported_total_cost_usd": 1.0
+}
