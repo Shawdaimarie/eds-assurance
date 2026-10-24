@@ -4,14 +4,15 @@ Local date: **2026-10-23**. Runtime: Python **3.12.14**, macOS arm64. Dependenci
 
 | Check | Result |
 |---|---|
-| Automated tests | 67 passed on Python 3.12 |
+| Automated tests | 83 passed on Python 3.12 |
 | Static checks | Ruff F-series checks pass for source, tests, scripts, and examples |
 | Existing API/data controls | Complete workflow, tenant isolation, access scopes, immutable evidence, exact coverage, bounded bodies, and audit tampering tests pass |
 | Actual local HTTP process | Uvicorn plus authenticated example workflow succeeds; cross-tenant reads fail; saved runs survive a process restart |
 | Provider wire contracts | OpenAI, Anthropic, and xAI REST payloads, authentication headers, schema configuration, usage, model/request IDs, and timing tested through HTTPX mock transport |
 | Provider failure handling | Refusals, truncation, invalid output, malformed envelopes, response-size limits, 302/401/429/500 responses, timeouts, and connection failures tested |
 | Collection boundaries | Per-case evidence isolation, excluded gold labels, request/input limits, no-key/no-call dry runs, nullable cost, and partial ledger retention tested |
-| Secret generation | Private file mode and refusal to overwrite existing credentials tested |
+| Secret generation | Private file mode, overwrite/symlink rejection, masked setup, and no secret/error echo tested |
+| Free-credit preflight | No subprocess starts with missing/stale/funded/reused review; exact model/key binding, single-use execution, inherited provider-key stripping, and first-failure stop tested |
 | Backup and restore | Native SQLite snapshot verifies and restores prior records after subsequent source-store writes |
 | Readiness | Storage failure returns 503 without exposing project data |
 | Synthetic demonstration | Baseline fails; candidate passes; audit checkpoint verifies |
