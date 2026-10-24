@@ -75,6 +75,7 @@ def create_app(settings: Settings | None = None):
         response = await call_next(request)
         response.headers["Cache-Control"] = "no-store"
         response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-EDS-Storage"] = settings.storage_mode
         return response
 
     @app.exception_handler(NotFound)
@@ -101,6 +102,25 @@ def create_app(settings: Settings | None = None):
     @app.exception_handler(sqlite3.OperationalError)
     async def unavailable(request, exc):
         return JSONResponse({"detail": "Storage temporarily unavailable"}, status_code=503)
+
+    @app.get("/")
+    def service_information():
+        return {
+            "service": "EDS Assurance",
+            "version": __version__,
+            "purpose": "Evidence provenance and reproducible AI evaluation",
+            "website": "https://essentialdigitalsolution.com/",
+            "repository": "https://github.com/Shawdaimarie/eds-assurance",
+            "storage_mode": settings.storage_mode,
+            "storage_notice": (
+                "Portfolio demo: records are temporary and are lost on idle shutdown, restart, or deploy. "
+                "Use public test data only."
+                if settings.storage_mode == "ephemeral-demo"
+                else "Storage durability and backups are managed by the operator."
+            ),
+            "authentication": "All /v1/ endpoints require a scoped bearer credential.",
+            "model_execution": "Operator CLI only; the HTTP API cannot trigger paid model calls.",
+        }
 
     @app.get("/healthz")
     def health():

@@ -1,24 +1,22 @@
-# Single-instance pilot; review paid compute/disk charges before applying.
+# Free portfolio demo: local records are lost on idle shutdown, restart, or deploy.
 services:
   - type: web
     name: eds-assurance
     runtime: python
-    plan: 0.5c-512mb
+    plan: free
     region: ohio
     numInstances: 1
     autoDeployTrigger: checksPass
     buildCommand: python -m pip install -r requirements.lock -r requirements-build.lock && python -m pip install --no-deps --no-build-isolation .
     startCommand: uvicorn eds_assurance.api:create_app --factory --host 0.0.0.0 --port $PORT --workers 1 --limit-concurrency 32 --timeout-keep-alive 5 --no-server-header
     healthCheckPath: /readyz
-    disk:
-      name: eds-evidence
-      mountPath: /var/data
-      sizeGB: 1
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.14
+      - key: EDS_STORAGE_MODE
+        value: ephemeral-demo
       - key: EDS_DB_PATH
-        value: /var/data/assurance.db
+        value: /tmp/eds-assurance/assurance.db
       - key: EDS_AUDIT_KEY_HEX
         sync: false
       - key: EDS_API_TOKENS_JSON

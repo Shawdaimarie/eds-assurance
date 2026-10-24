@@ -30,6 +30,7 @@ class Settings:
     audit_key: bytes
     credentials: tuple[Credential, ...]
     max_body_bytes: int = 524_288
+    storage_mode: str = "operator-managed"
 
     @classmethod
     def from_env(cls):
@@ -55,7 +56,11 @@ class Settings:
                     raise ValueError
                 seen.add(token_digest)
                 credentials.append(Credential(token_digest, Principal(tenant, frozenset(scopes))))
-            return cls(Path(os.environ.get("EDS_DB_PATH", ".local/assurance.db")), key, tuple(credentials))
+            storage_mode = os.environ.get("EDS_STORAGE_MODE", "operator-managed")
+            if storage_mode not in {"operator-managed", "ephemeral-demo"}:
+                raise ValueError
+            return cls(Path(os.environ.get("EDS_DB_PATH", ".local/assurance.db")), key,
+                       tuple(credentials), storage_mode=storage_mode)
         except (KeyError, ValueError, TypeError):
             raise ValueError("Invalid security configuration. Set a 32-byte EDS_AUDIT_KEY_HEX and valid EDS_API_TOKENS_JSON; see README.") from None
 

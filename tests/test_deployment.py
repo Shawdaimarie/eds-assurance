@@ -1,4 +1,5 @@
 import importlib.util
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
@@ -13,14 +14,22 @@ from conftest import request_for
 ROOT = Path(__file__).parents[1]
 
 
-def test_blueprint_keeps_persistence_and_secrets_explicit():
-    body = yaml.safe_load((ROOT / "render.yaml").read_text())
+@pytest.mark.parametrize("path,persistent", [("render.yaml", False), ("deploy/render.persistent.yaml", True)])
+def test_blueprints_keep_storage_budget_and_secrets_explicit(path, persistent):
+    body = yaml.safe_load((ROOT / path).read_text())
     service, = body["services"]
     assert service["numInstances"] == 1
     assert "scaling" not in service
-    assert service["disk"]["mountPath"] == "/var/data"
     variables = {item["key"]: item for item in service["envVars"]}
-    assert variables["EDS_DB_PATH"]["value"].startswith("/var/data/")
+    if persistent:
+        assert service["plan"] == "0.5c-512mb"
+        assert service["disk"]["mountPath"] == "/var/data"
+        assert variables["EDS_DB_PATH"]["value"].startswith("/var/data/")
+    else:
+        assert service["plan"] == "free"
+        assert "disk" not in service
+        assert variables["EDS_DB_PATH"]["value"].startswith("/tmp/")
+        assert variables["EDS_STORAGE_MODE"]["value"] == "ephemeral-demo"
     for key in ("EDS_AUDIT_KEY_HEX", "EDS_API_TOKENS_JSON"):
         assert variables[key] == {"key": key, "sync": False}
     assert not {"OPENAI_API_KEY", "ANTHROPIC_API_KEY", "XAI_API_KEY"} & variables.keys()
@@ -63,3 +72,15 @@ def test_readiness_checks_storage_without_exposing_records(settings, store):
         response = client.get("/readyz")
         assert response.status_code == 503
         assert response.json() == {"detail": "Storage is not ready"}
+
+
+def test_free_demo_discloses_temporary_storage_and_keeps_authentication(settings):
+    with TestClient(create_app(replace(settings, storage_mode="ephemeral-demo"))) as client:
+        response = client.get("/")
+        assert response.json()["storage_mode"] == "ephemeral-demo"
+        assert "lost on idle shutdown" in response.json()["storage_notice"]
+        assert response.headers["X-EDS-Storage"] == "ephemeral-demo"
+        assert str(settings.db_path) not in response.text
+        protected = client.get("/v1/audit/checkpoint")
+        assert protected.status_code == 401
+        assert protected.headers["X-EDS-Storage"] == "ephemeral-demo"

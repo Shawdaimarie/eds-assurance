@@ -4,7 +4,7 @@ Local date: **2026-10-23**. Runtime: Python **3.12.14**, macOS arm64. Dependenci
 
 | Check | Result |
 |---|---|
-| Automated tests | 65 passed on Python 3.12 |
+| Automated tests | 67 passed on Python 3.12 |
 | Static checks | Ruff F-series checks pass for source, tests, scripts, and examples |
 | Existing API/data controls | Complete workflow, tenant isolation, access scopes, immutable evidence, exact coverage, bounded bodies, and audit tampering tests pass |
 | Actual local HTTP process | Uvicorn plus authenticated example workflow succeeds; cross-tenant reads fail; saved runs survive a process restart |
@@ -18,11 +18,11 @@ Local date: **2026-10-23**. Runtime: Python **3.12.14**, macOS arm64. Dependenci
 | CLI/public data workflow | Doctor, public-source ingestion, and credential-free dry run succeed with no model calls |
 | Distribution build | v0.2.0 source archive and wheel build successfully; installed wheel imports and completes doctor/demo workflows |
 | Dependencies and Compose | `pip check` succeeds; Docker Compose configuration validates |
-| Render configuration | Passes Render's current public JSON schema; single instance and external secret fields also covered by offline tests |
+| Render configuration | Passes Render's current public JSON schema; free plan/no disk and optional paid persistence separately checked; external secret fields covered by offline tests |
 | Live provider calls | Not performed: no provider API keys configured; no paid model requests made |
 | Docker runtime | Not executed locally: Docker daemon unavailable |
 | Remote GitHub CI | [Run 40041827502](https://github.com/Shawdaimarie/eds-assurance/actions/runs/40041827502): all four jobs passed, including Python 3.11–3.13 and container/API workflow |
-| Cloud deployment | Dashboard Blueprint review reached; Render requires payment information. Workspace confirmation pending. No EDS Assurance service or paid resources created |
+| Cloud deployment | Workspace confirmed and renamed Essential Digital Solution; $0 free demo configuration tested; live deployment pending |
 | Other Python versions | Python 3.11 and 3.13 verified in GitHub CI |
 
 The upstream Starlette test client emits one HTTPX deprecation warning. All tests pass with pinned dependencies. Runtime provider adapters use HTTPX directly; this warning concerns the test transport.

@@ -2,7 +2,7 @@
 
 **Secure evidence contracts and reproducible evaluation for AI applications.** An independent engineering project supporting [Essential Digital Solution](https://essentialdigitalsolution.com/).
 
-Version **0.2.0** adds real REST adapters for **OpenAI, Anthropic, and xAI/Grok**, client-measured latency, provider-reported token usage, partial-attempt ledgers, verified SQLite backups, and a prepared Render deployment.
+Version **0.2.0** adds real REST adapters for **OpenAI, Anthropic, and xAI/Grok**, client-measured latency, provider-reported token usage, partial-attempt ledgers, verified SQLite backups, and a Render deployment configuration.
 
 The adapters are implemented and tested with mocked HTTP responses. **Live model calls have not been verified in this workspace because provider keys are not configured.** The included demonstration remains a labeled synthetic fixture. The standalone [GitHub repository](https://github.com/Shawdaimarie/eds-assurance) has been created; deployment status is documented separately.
 
@@ -123,9 +123,9 @@ A standalone repository is the project boundary: [Shawdaimarie/eds-assurance](ht
 python scripts/validate_render.py
 ```
 
-The Render Blueprint has been checked against its current public JSON schema. It proposes one paid web instance in Ohio and a 1 GB persistent disk. Review costs and region before applying. Applying the Blueprint creates cloud resources; it has not been applied here.
+The default `render.yaml` uses Render’s **free** plan in Ohio, without a disk. This is a portfolio demo: its SQLite records are lost on idle shutdown, restart, or deploy. Use public test data only. The root endpoint and `X-EDS-Storage` response header disclose this mode. Free services sleep after inactivity and share workspace usage limits. A separate `deploy/render.persistent.yaml` retains the optional paid disk configuration; it requires a separate budget approval. Both configurations pass Render’s current public JSON schema. See the deployment runbook for the verified live status.
 
-The service uses `/var/data/assurance.db`, an externally supplied audit key, scoped API credentials, and the platform's `PORT`. No provider keys are required by the hosted API. Service-attached SQLite storage allows one instance and entails restart/deploy interruptions. See [the deployment runbook](docs/DEPLOYMENT.md) for secret setup, backups, smoke tests, and rollback.
+The free service uses `/tmp/eds-assurance/assurance.db`, an externally supplied audit key, scoped API credentials, and the platform's `PORT`. No provider keys are required by the hosted API. Local SQLite storage is scoped to one instance; only the optional paid disk configuration provides persistence across restarts. See [the deployment runbook](docs/DEPLOYMENT.md) for secret setup, backups, smoke tests, and rollback.
 
 For local containers, load the application environment and run `docker compose up --build`. The root filesystem is read-only and the container runs as a non-root user. Local container execution remains unverified because Docker's daemon is unavailable; GitHub CI includes a container health/authenticated-workflow check.
 

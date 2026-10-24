@@ -44,6 +44,6 @@ Because this helper does not supply current price rates, completed model integra
 
 ## 4. Render application credentials
 
-The hosted API needs `EDS_AUDIT_KEY_HEX` and `EDS_API_TOKENS_JSON`, independent of OpenAI/Anthropic/xAI keys. Keep the audit key stable for its database. Supply secrets through Render's secret environment settings; do not commit their values in `render.yaml`.
+The free hosted API uses temporary storage and cannot trigger model calls. The $0 hosting budget does not authorize paid provider requests. The hosted API needs `EDS_AUDIT_KEY_HEX` and `EDS_API_TOKENS_JSON`, independent of OpenAI/Anthropic/xAI keys. Keep the audit key stable for its database. Supply secrets through Render's secret environment settings; do not commit their values in `render.yaml`.
 
 Model-provider keys are optional on Render. If you later configure one for an operator-run collection, add only the corresponding `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, or `XAI_API_KEY` in the intended service, and preserve unrelated environment settings. Never expose a paid collection endpoint to ordinary tenant credentials.

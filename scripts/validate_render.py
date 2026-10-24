@@ -21,5 +21,6 @@ if __name__ == "__main__":
     if len(raw) > 1_048_576:
         raise SystemExit("Render schema exceeded the accepted size.")
     schema = json.loads(raw)
-    validate(yaml.safe_load((root / "render.yaml").read_text()), schema)
+    for path in (root / "render.yaml", root / "deploy/render.persistent.yaml"):
+        validate(yaml.safe_load(path.read_text()), schema)
     print("Render Blueprint passes the current public JSON schema. No cloud resources were created.")

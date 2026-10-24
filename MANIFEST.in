@@ -6,3 +6,5 @@ recursive-include tests *.py
 recursive-include reports *.json
 recursive-include .github *.yml
 recursive-include scripts *.py
+
+recursive-include deploy *.yaml
