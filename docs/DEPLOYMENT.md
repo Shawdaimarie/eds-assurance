@@ -1,6 +1,6 @@
 # GitHub and deployment runbook
 
-Published repository: [Shawdaimarie/eds-assurance](https://github.com/Shawdaimarie/eds-assurance). GitHub CI run [40041827502](https://github.com/Shawdaimarie/eds-assurance/actions/runs/40041827502) passed Python 3.11–3.13 tests and the deployment/container job. A $0 free demo deployment is being prepared in the confirmed Essential Digital Solution workspace; the paid persistent proposal will not be applied. Live model verification awaits privately configured provider credentials.
+Published repository: [Shawdaimarie/eds-assurance](https://github.com/Shawdaimarie/eds-assurance). GitHub CI run [40049981307](https://github.com/Shawdaimarie/eds-assurance/actions/runs/40049981307) passed Python 3.11–3.13 tests and the deployment/container job. The $0 free demo is **live** at [eds-assurance.onrender.com](https://eds-assurance.onrender.com/) in the confirmed Essential Digital Solution workspace; no paid resources were created. Live model verification awaits privately configured provider credentials.
 
 ## Before publication
 
@@ -30,7 +30,7 @@ Render's free filesystem is reset on idle shutdown, restart, or deploy. Free ser
 
 No payment method is added. The workspace build-pipeline spend limit was verified at $0. Without a payment method, Render suspends services/disables builds at applicable free usage limits instead of billing overages. Do not add paid resources or upgrade automatically.
 
-The Render connector can create this single free service directly from `main`; no Blueprint instance or disk is required. Set the pinned build/start commands and variables from `render.yaml`, plus the private application credentials. The connector creation endpoint defaults to commit-based auto-deploy; inspect and align the service's CI/deploy and readiness settings afterward. The Blueprint remains the reviewable configuration reference. Validate both Blueprint files with `python scripts/validate_render.py`.
+The Render connector can create this single free service directly from `main`; no Blueprint instance or disk is required. Set the pinned build/start commands and variables from `render.yaml`, plus the private application credentials. The deployed service was aligned to `autoDeployTrigger: checksPass` and `healthCheckPath: /readyz` through the Dashboard, and both values were verified through the connector. The Blueprint remains the reviewable configuration reference. Validate both Blueprint files with `python scripts/validate_render.py`.
 
 | Variable | Required value |
 |---|---|
@@ -45,6 +45,10 @@ Keep secret values in Render's environment settings and a protected local file, 
 
 Official references reviewed on 2026-10-23: [free service limits](https://render.com/docs/free), [Blueprint specification](https://render.com/docs/blueprint-spec), [persistent disks](https://render.com/docs/disks), and [environment variables](https://render.com/docs/configure-environment-variables).
 
+## Verified live deployment
+
+Service `srv-dbe0jo59fdbs738u08r0` deployed source commit `f8235613cfc88532e1d956314c3ca91052a96a25`; deploy `dep-dbe0jol9fdbs738u0amg` reached `live`. HTTPS root/health/readiness returned 200, and an unauthenticated audit request returned 401. Using private verification credentials and synthetic fixtures, source ingestion, dataset creation, evaluation, report retrieval, and audit verification passed. A second tenant received 404 for both the first tenant's dataset and run. No provider model was called. Free compute plan, Ohio region, CI gate, and readiness path were checked through the Render connector. These are point-in-time checks, not an uptime guarantee.
+
 ## Verify the deployment
 
 1. Inspect build/deploy status and logs without revealing environment values.
@@ -54,7 +58,7 @@ Official references reviewed on 2026-10-23: [free service limits](https://render
 5. Confirm a second tenant cannot read the first tenant's dataset or run.
 6. In free demo mode, verify that records reset after restart/redeploy; do not promise persistence. Only test record retention when the separately approved persistent configuration is deployed.
 
-Run `python examples/api_workflow.py --base-url https://your-service.example` from a trusted shell with dedicated test-tenant credentials. The script requires HTTPS for remote origins and refuses redirects; do not place production tokens in it. Test the container locally first when a Docker daemon is available. Local Docker execution was unavailable during preparation; the remote container and authenticated API workflow passed in GitHub CI run 40041827502.
+Run `python examples/api_workflow.py --base-url https://your-service.example` from a trusted shell with dedicated test-tenant credentials. The script requires HTTPS for remote origins and refuses redirects; do not place production tokens in it. Test the container locally first when a Docker daemon is available. Local Docker execution was unavailable during preparation; the remote container and authenticated API workflow passed in GitHub CI run 40049981307.
 
 ## Backups, recovery, and rollback
 

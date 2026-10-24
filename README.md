@@ -115,7 +115,9 @@ eds-assurance backup --state-dir .local/api --output .local/backups/snapshot.db
 
 This creates a consistent snapshot and per-tenant audit checkpoints without copying the signing key. Retain the snapshot, checkpoint, and protected key through separate backup controls. Backup verification and a restore exercise are covered by tests; cloud backup retention is an operator responsibility. See [deployment operations](docs/DEPLOYMENT.md).
 
-## Prepare GitHub and deployment
+## Live demo and deployment
+
+**Hosted API:** [eds-assurance.onrender.com](https://eds-assurance.onrender.com/) · [health](https://eds-assurance.onrender.com/healthz) · [readiness](https://eds-assurance.onrender.com/readyz). This free portfolio demo exposes service information publicly; `/v1/` operations require private credentials. Live provider inference has not been verified.
 
 A standalone repository is the project boundary: [Shawdaimarie/eds-assurance](https://github.com/Shawdaimarie/eds-assurance). Its own CI and releases can be linked from Essential Digital Solution. See the deployment runbook for publication, CI, and hosting verification status.
 
